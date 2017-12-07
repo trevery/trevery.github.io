@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>基于手势识别控制的特种机械臂机器人 | Trevery</title>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+        <meta name="keywords" content="机器人,计算机视觉" />
+    
+    <meta name="description" content="作品简介通过多个传感器（双目摄像头，电位器）获取手臂和手掌的信息，经过PC上位机以及微处理器的分析解算后，获知实时的手势，并发送处理后的有效信息给舵机控制端口对机械臂进行控制，让机械臂能够完成人手的实时动作，从而能够完成危险任务的执行，如拆卸炸弹，危室探索，军用探测，无人机高空作业，水下深海采样等任务，并且装置具有机器">
+<meta name="keywords" content="机器人,计算机视觉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于手势识别控制的特种机械臂机器人">
+<meta property="og:url" content="https://trevery.github.io/2017/12/07/robotArm-ChenXingyu/index.html">
+<meta property="og:site_name" content="Trevery">
+<meta property="og:description" content="作品简介通过多个传感器（双目摄像头，电位器）获取手臂和手掌的信息，经过PC上位机以及微处理器的分析解算后，获知实时的手势，并发送处理后的有效信息给舵机控制端口对机械臂进行控制，让机械臂能够完成人手的实时动作，从而能够完成危险任务的执行，如拆卸炸弹，危室探索，军用探测，无人机高空作业，水下深海采样等任务，并且装置具有机器视觉捕捉的功能，能够在特殊时期实现自动任务处理，如自动跟踪，自动瞄准等。 我">
+<meta property="og:locale" content="en">
+<meta property="og:image" content="https://trevery.github.io/2017/12/07/robotArm-ChenXingyu/robotArm.jpg">
+<meta property="og:updated_time" content="2017-12-07T02:48:45.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于手势识别控制的特种机械臂机器人">
+<meta name="twitter:description" content="作品简介通过多个传感器（双目摄像头，电位器）获取手臂和手掌的信息，经过PC上位机以及微处理器的分析解算后，获知实时的手势，并发送处理后的有效信息给舵机控制端口对机械臂进行控制，让机械臂能够完成人手的实时动作，从而能够完成危险任务的执行，如拆卸炸弹，危室探索，军用探测，无人机高空作业，水下深海采样等任务，并且装置具有机器视觉捕捉的功能，能够在特殊时期实现自动任务处理，如自动跟踪，自动瞄准等。 我">
+<meta name="twitter:image" content="https://trevery.github.io/2017/12/07/robotArm-ChenXingyu/robotArm.jpg">
+    
+
+    
+        <link rel="alternate" href="/" title="Trevery" type="application/atom+xml" />
+    
+
+    
+        <link rel="icon" href="/about/favicon.png" />
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/titillium-web/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.0.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-110867076-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+
+
+</head>
+
+<body>
+    <div id="wrap">
+        <header id="header">
+    <div id="header-outer" class="outer">
+        <div class="container">
+            <div class="container-inner">
+                <div id="header-title">
+                    <h1 class="logo-wrap">
+                        <a href="/" class="logo"></a>
+                    </h1>
+                    
+                        <h2 class="subtitle-wrap">
+                            <p class="subtitle">Try every ...</p>
+                        </h2>
+                    
+                </div>
+                <div id="header-inner" class="nav-container">
+                    <a id="main-nav-toggle" class="nav-icon fa fa-bars"></a>
+                    <div class="nav-container-inner">
+                        <ul id="main-nav">
+                            
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/">主页</a>
+		  
+                                </li>
+                            
+                                        <ul class="main-nav-list"><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/作品/">作品</a></li><li class="main-nav-list-item"><a class="main-nav-list-link" href="/categories/项目/">项目</a></li></ul>
+                                    
+                                <li class="main-nav-list-item" >
+                                    <a class="main-nav-list-link" href="/about/index.html">关于我们</a>
+		  
+                                </li>
+                            
+                        </ul>
+                        <nav id="sub-nav">
+                            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+        <div class="container">
+            <div class="main-body container-inner">
+                <div class="main-body-inner">
+                    <section id="main">
+                        <div class="main-body-header">
+    <h1 class="header">
+    
+    <a class="page-title-link" href="/categories/作品/">作品</a>
+    </h1>
+</div>
+                        <div class="main-body-content">
+                            <article id="post-robotArm-ChenXingyu" class="article article-single article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+        基于手势识别控制的特种机械臂机器人
+        </h1>
+    
+
+            </header>
+        
+        
+            <div class="article-meta">
+                
+    <div class="article-date">
+        <a href="/2017/12/07/robotArm-ChenXingyu/" class="article-date">
+            <time datetime="2017-12-07T02:48:45.000Z" itemprop="datePublished">2017-12-07</time>
+        </a>
+    </div>
+
+                
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/机器人/">机器人</a>, <a class="tag-link" href="/tags/计算机视觉/">计算机视觉</a>
+    </div>
+
+            </div>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+            <hr>
+<img src="/2017/12/07/robotArm-ChenXingyu/robotArm.jpg" title="机器人">
+<h2 id="作品简介"><a href="#作品简介" class="headerlink" title="作品简介"></a>作品简介</h2><p>通过多个传感器（双目摄像头，电位器）获取手臂和手掌的信息，经过PC上位机以及微处理器的分析解算后，获知实时的手势，并发送处理后的有效信息给舵机控制端口对机械臂进行控制，让机械臂能够完成人手的实时动作，从而能够完成危险任务的执行，如拆卸炸弹，危室探索，军用探测，无人机高空作业，水下深海采样等任务，并且装置具有机器视觉捕捉的功能，能够在特殊时期实现自动任务处理，如自动跟踪，自动瞄准等。</p>
+<p>我们团队自主开发并制作的基于手势识别控制的机械臂控制系统是在广为使用的开源六自由度机械臂平台上进行设计的，具有良好的通用性能，能够应用在多种机械臂平台上，应用前景广阔。</p>
+<h2 id="设计者"><a href="#设计者" class="headerlink" title="设计者"></a>设计者</h2><p>姓名：陈星宇<br>学科： 重庆大学机械工程学院 机械电子工程<br>Email: 380903779@qq.com<br>通讯地址：重庆市沙坪坝区 重庆大学 A区10舍</p>
+
+        </div>
+        <footer class="article-footer">
+            
+
+
+
+    <a data-url="https://trevery.github.io/2017/12/07/robotArm-ChenXingyu/" data-id="cjawe7atf0008k2ir2iqb7nve" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+        </footer>
+    </div>
+</article>
+
+
+                        </div>
+                    </section>
+                    <aside id="sidebar">
+    <a class="sidebar-toggle" title="Expand Sidebar"><i class="toggle icon"></i></a>
+    <div class="sidebar-top">
+        <p>follow:</p>
+        <ul class="social-links">
+            
+                
+                <li>
+                    <a class="social-tooltip" title="github" href="https://github.com/trevery" target="_blank">
+                        <i class="icon fa fa-github"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="weibo" href="/" target="_blank">
+                        <i class="icon fa fa-weibo"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="rss" href="/" target="_blank">
+                        <i class="icon fa fa-rss"></i>
+                    </a>
+                </li>
+                
+            
+                
+                <li>
+                    <a class="social-tooltip" title="youtube" href="/" target="_blank">
+                        <i class="icon fa fa-youtube"></i>
+                    </a>
+                </li>
+                
+            
+        </ul>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/12/07/rubens-tube/" id="article-nav-newer" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">newer</strong>
+        <p class="article-nav-title">
+        
+            鲁本斯管音响
+        
+        </p>
+        <i class="icon fa fa-chevron-right" id="icon-chevron-right"></i>
+    </a>
+    
+    
+        <a href="/2017/12/05/Raspberry-Pi-Cluster/" id="article-nav-older" class="article-nav-link-wrap">
+        <strong class="article-nav-caption">older</strong>
+        <p class="article-nav-title">树莓派超级计算机</p>
+        <i class="icon fa fa-chevron-left" id="icon-chevron-left"></i>
+        </a>
+    
+</nav>
+
+    
+    <div class="widgets-container">
+        
+            
+                
+    <div class="widget-wrap">
+        <h3 class="widget-title">recents</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/07/fan-shadow/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2017/12/07/fan-shadow/fan-shadow.gif)" alt="扇影" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/作品/">作品</a></p>
+                            <p class="item-title"><a href="/2017/12/07/fan-shadow/" class="title">扇影</a></p>
+                            <p class="item-date"><time datetime="2017-12-07T02:52:29.925Z" itemprop="datePublished">2017-12-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/07/rubens-tube/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2017/12/07/rubens-tube/rubens-tube.png)" alt="鲁本斯管音响" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/项目/">项目</a></p>
+                            <p class="item-title"><a href="/2017/12/07/rubens-tube/" class="title">鲁本斯管音响</a></p>
+                            <p class="item-date"><time datetime="2017-12-07T02:49:49.000Z" itemprop="datePublished">2017-12-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/07/robotArm-ChenXingyu/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2017/12/07/robotArm-ChenXingyu/robotArm.jpg)" alt="基于手势识别控制的特种机械臂机器人" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/作品/">作品</a></p>
+                            <p class="item-title"><a href="/2017/12/07/robotArm-ChenXingyu/" class="title">基于手势识别控制的特种机械臂机器人</a></p>
+                            <p class="item-date"><time datetime="2017-12-07T02:48:45.000Z" itemprop="datePublished">2017-12-07</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/05/Raspberry-Pi-Cluster/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2017/12/05/Raspberry-Pi-Cluster/cluster.jpg)" alt="树莓派超级计算机" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/项目/">项目</a></p>
+                            <p class="item-title"><a href="/2017/12/05/Raspberry-Pi-Cluster/" class="title">树莓派超级计算机</a></p>
+                            <p class="item-date"><time datetime="2017-12-05T06:12:05.000Z" itemprop="datePublished">2017-12-05</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/12/04/flowers/" class="thumbnail">
+    
+    
+        <span style="background-image:url(/2017/12/04/flowers/flowers.jpg)" alt="flowers" class="thumbnail-image"></span>
+    
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/作品/">作品</a></p>
+                            <p class="item-title"><a href="/2017/12/04/flowers/" class="title">flowers</a></p>
+                            <p class="item-date"><time datetime="2017-12-04T12:18:23.000Z" itemprop="datePublished">2017-12-04</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/作品/">作品</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/项目/">项目</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a><span class="archive-list-count">6</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Arduino/">Arduino</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Processing/">Processing</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/投影交互/">投影交互</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/机器人/">机器人</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树莓派/">树莓派</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/火焰/">火焰</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/装置艺术/">装置艺术</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机科学/">计算机科学</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/计算机视觉/">计算机视觉</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/音乐/">音乐</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-float">
+        <h3 class="widget-title">tag cloud</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/Arduino/" style="font-size: 20px;">Arduino</a> <a href="/tags/Processing/" style="font-size: 10px;">Processing</a> <a href="/tags/投影交互/" style="font-size: 10px;">投影交互</a> <a href="/tags/机器人/" style="font-size: 15px;">机器人</a> <a href="/tags/树莓派/" style="font-size: 15px;">树莓派</a> <a href="/tags/火焰/" style="font-size: 10px;">火焰</a> <a href="/tags/装置艺术/" style="font-size: 15px;">装置艺术</a> <a href="/tags/计算机科学/" style="font-size: 10px;">计算机科学</a> <a href="/tags/计算机视觉/" style="font-size: 15px;">计算机视觉</a> <a href="/tags/音乐/" style="font-size: 10px;">音乐</a>
+        </div>
+    </div>
+
+
+            
+                
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+            </ul>
+        </div>
+    </div>
+
+
+            
+        
+    </div>
+</aside>
+                </div>
+            </div>
+        </div>
+        <footer id="footer">
+    <div class="container">
+        <div class="container-inner">
+            <a id="back-to-top" href="javascript:;"><i class="icon fa fa-angle-up"></i></a>
+            <div class="credit">
+                <h1 class="logo-wrap">
+                    <a href="/" class="logo"></a>
+                </h1>
+                <p>&copy; 2017 trevery</p>
+             
+            </div>
+        </div>
+    </div>
+</footer>
+
+        
+    
+    <script>
+    var disqus_shortname = 'hexo-theme-hueman';
+    
+    
+    var disqus_url = 'https://trevery.github.io/2017/12/07/robotArm-ChenXingyu/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
